@@ -2,9 +2,7 @@ package org.eyalgo.matchers;
 
 import java.util.regex.Pattern;
 
-import org.hamcrest.CustomTypeSafeMatcher;
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
+import org.hamcrest.*;
 
 /**
  * Created by eyalgo on 3/7/14.
@@ -22,6 +20,11 @@ public class RegularExpressionMatcher extends CustomTypeSafeMatcher<String> {
         this(Pattern.compile(pattern));
     }
 
+    @Override
+    protected boolean matchesSafely(String item) {
+        return pattern.matcher(item).matches();
+    }
+
     @Factory
     public static Matcher<String> matchesPattern(Pattern pattern) {
         return new RegularExpressionMatcher(pattern);
@@ -30,10 +33,5 @@ public class RegularExpressionMatcher extends CustomTypeSafeMatcher<String> {
     @Factory
     public static Matcher<String> matchesPattern(String pattern) {
         return new RegularExpressionMatcher(pattern);
-    }
-
-    @Override
-    protected boolean matchesSafely(String item) {
-        return pattern.matcher(item).matches();
     }
 }
